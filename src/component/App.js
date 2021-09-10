@@ -10,8 +10,6 @@ import "./App.css"
 function App() {
   const [incoming, setIncoming] = useState([])
   const [firstContact, setFirstContact] = useState([])
-  const [secondContact, setSecondContact] = useState([])
-  const [verbalCommitment, setVerbalCommitment] = useState([])
   const [show, setShow] = useState(false);
   const [showMove, setShowMove] = useState(false)
   const [candidateInputName, setCandidateInputName] = useState("")
@@ -105,28 +103,8 @@ function App() {
               }) 
               : null}
           </Col>
-          <Col>
-            {secondContact ? secondContact.map(inc => {
-              return(
-                <CandidateCard 
-                  name={inc.candidate} 
-                  score={inc.score} 
-                  key={inc.candidate}
-                  handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc.candidate)} />)
-              }) 
-              : null}
-          </Col>
-          <Col>
-            {verbalCommitment ? verbalCommitment.map(inc => {
-              return(
-              <CandidateCard 
-                name={inc.candidate} 
-                score={inc.score} 
-                key={inc.candidate}
-                handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc.candidate)} />)
-            }) 
-            : null}
-          </Col>
+          <Col></Col>
+          <Col></Col>
         </Row>
       </Container>
       <AddCandidateModal 
@@ -149,6 +127,8 @@ function App() {
         selectCandidate={selectCandidate}
         setCandidateInputScore={setCandidateInputScore}
         candidateInputScore={candidateInputScore}
+        candidateInputName={candidateInputName}
+        setCandidateInputName={setCandidateInputName}
         />
     </>
   );
