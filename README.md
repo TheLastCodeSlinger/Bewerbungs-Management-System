@@ -1,7 +1,7 @@
 ## Workwise Aufgabe
 
-
-#### Ich habe erst vor kurzem damit angefangen Bootstrap zu verwenden, daher hat diese Aufgabe knapp 3.5 Stunden beansprucht.
+### Ich habe das Projekt mit create-react-app initialisiert und anschließend nur react-bootstrap installiert und einen Link in der index.html hinzugefügt.
+#### Diese Aufgabe hat knapp 3.5h Zeit beansprucht, da ich erst vor kurzem damit angefangen habe Bootstrap zu verwenden und bei einigen Templates viel Zeit verschwendet habe.
 
     1. Als erstes habe ich das Layout erstellt mit Col/Row/Table
     2. Cards gehardcoded
