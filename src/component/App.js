@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {Container, Table, Row, Col, Button, Dropdown} from 'react-bootstrap'
+import {Container, Row, Col, Button, Dropdown} from 'react-bootstrap'
 
 import CandidateCard from "./CardItem"
 import AddCandidateModal from './AddCandidateModal'
@@ -53,30 +53,27 @@ function App() {
 
   return (
     <>
-      <Table bordered >
-        <thead>
-          <tr>
-            <th>
-              <Dropdown>Incoming
-                <Dropdown.Toggle style={{marginLeft:"15px"}}>
+      <Row className="HeaderRow">
+        <Col className="HeaderBorder">
+          <Dropdown>Incoming
+            <Dropdown.Toggle style={{marginLeft:"15px"}}>
                   Sort
-                </Dropdown.Toggle>
+              </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={() => handleSort(1) }>Desc. Score</Dropdown.Item>
                   <Dropdown.Item onClick={() => handleSort(2) }>Asc. Score</Dropdown.Item>
                   <Dropdown.Item onClick={() => handleSort(3) }>A-Z Name</Dropdown.Item>
                   <Dropdown.Item onClick={() => handleSort(4) }>Z-A Name</Dropdown.Item>
                 </Dropdown.Menu>
-              </Dropdown></th>
-            <th>First contact</th>
-            <th>Second contact</th>
-            <th>Verbal comittment</th>
-          </tr>
-        </thead>
-      </Table>
+              </Dropdown>
+        </Col>
+        <Col className="HeaderBorder">First contact</Col>
+        <Col className="HeaderBorder">Second contact</Col>
+        <Col className="HeaderBorder">Verbal comittment</Col>
+      </Row>
       <Container fluid="true">
         <Row className="CenterRows">
-          <Col>
+          <Col className="ColomnBorder">
             {incoming ? incoming.map(inc => {
                 return(
                 <CandidateCard 
@@ -92,7 +89,7 @@ function App() {
               className="AddCandidateButton"
               >Add Candidate</Button>
           </Col>
-          <Col>
+          <Col className="ColomnBorder">
             {firstContact ? firstContact.map(inc => {
               return(
                 <CandidateCard 
@@ -103,8 +100,8 @@ function App() {
               }) 
               : null}
           </Col>
-          <Col></Col>
-          <Col></Col>
+          <Col className="ColomnBorder"></Col>
+          <Col className="ColomnBorder"></Col>
         </Row>
       </Container>
       <AddCandidateModal 

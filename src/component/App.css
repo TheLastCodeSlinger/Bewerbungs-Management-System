@@ -1,15 +1,29 @@
 
-th {
-    width: 25%;
-}
-
 .CenterRows{
     width: 100%;
     margin: 0 auto;
 }
 
 .AddCandidateButton {
-    margin-top: 10px;
+    margin: 10px auto 0
+}
+
+.HeaderBorder {
+    border-right: solid black 1px;
+    border-bottom: solid black 1px;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.ColomnBorder {
+    border-right: solid black 1px;
+    min-height: 96vh;
+    height: 100%;
+}
+
+.HeaderRow {
+    --bs-gutter-x: 0;
 }
 
 
