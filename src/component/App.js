@@ -10,11 +10,14 @@ import "./App.css"
 function App() {
   const [incoming, setIncoming] = useState([])
   const [firstContact, setFirstContact] = useState([])
+  const [secondContact, setSecondContact] = useState([])
+  const [verbalCommitment, setVerbalCommitment] = useState([])
   const [show, setShow] = useState(false);
   const [showMove, setShowMove] = useState(false)
   const [candidateInputName, setCandidateInputName] = useState("")
   const [candidateInputScore, setCandidateInputScore] = useState(0)
   const [selectCandidate, setSelectCandidate] = useState("")
+  const [phase, setPhase] = useState("")
 
 
   const handleCloseAddCandidateModal = () => setShow(false);
@@ -23,11 +26,25 @@ function App() {
   //Close MoveCandidateModal.js
   const handleCloseEditCandidateModal = () => setShowMove(false)
 
-  //Opens Modal to Move/Delete/Edit Candidate and passes the Name to MoveCandidateModal.js
+  //Opens Modal to Move/Delete/Edit Candidate and passes the candidate-object to EditCandidateModal.js
   const handleShowEditCandidateModal = (candidate) => {
+    handleChangePhaseForButton(candidate.phase)
     setShowMove(true)
     setSelectCandidate(candidate)
   } 
+
+  //Changes the Button in the Edit-Modal.
+  const handleChangePhaseForButton = (candidateData) => {
+    if(candidateData === "Incoming"){
+        setPhase("First contact");
+    }
+    if(candidateData === "First contact"){
+        setPhase("Second contact");
+    }
+    if(candidateData === "Second contact"){
+        setPhase("Verbal commitment");
+    }
+}
 
   //Copy of Incoming, because sort() mutates array.. Case 1: Descending Score. Case 2: Ascending Score. Case 3: A-Z Name. Case 4: Z-A Name.
   const handleSort = (type) => {
@@ -80,7 +97,8 @@ function App() {
                   name={inc.candidate} 
                   score={inc.score} 
                   key={inc.candidate}
-                  handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc.candidate)} />)
+                  handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc)}
+                  />)
               }) 
               : null}
             <Button 
@@ -96,12 +114,35 @@ function App() {
                   name={inc.candidate} 
                   score={inc.score} 
                   key={inc.candidate}
-                  handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc.candidate)} />)
+                  handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc)} 
+                  />)
               }) 
               : null}
           </Col>
-          <Col className="ColomnBorder"></Col>
-          <Col className="ColomnBorder"></Col>
+          <Col className="ColomnBorder">
+            {secondContact ? secondContact.map(inc => {
+                return(
+                  <CandidateCard 
+                    name={inc.candidate} 
+                    score={inc.score} 
+                    key={inc.candidate}
+                    handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc)}
+                     />)
+                }) 
+                : null}
+          </Col>
+          <Col className="ColomnBorder">
+            {verbalCommitment ? verbalCommitment.map(inc => {
+                return(
+                  <CandidateCard 
+                    name={inc.candidate} 
+                    score={inc.score} 
+                    key={inc.candidate}
+                    handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc)} 
+                    />)
+                }) 
+                : null}
+          </Col>
         </Row>
       </Container>
       <AddCandidateModal 
@@ -126,6 +167,11 @@ function App() {
         candidateInputScore={candidateInputScore}
         candidateInputName={candidateInputName}
         setCandidateInputName={setCandidateInputName}
+        secondContact={secondContact}
+        setSecondContact={setSecondContact}
+        verbalCommitment={verbalCommitment}
+        setVerbalCommitment={setVerbalCommitment}
+        phase={phase}
         />
     </>
   );
