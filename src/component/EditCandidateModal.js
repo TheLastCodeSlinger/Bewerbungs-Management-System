@@ -12,23 +12,77 @@ const MoveCandidateModal = ({
     setCandidateInputScore,
     candidateInputScore,
     setCandidateInputName,
-    candidateInputName}) => {
+    candidateInputName,
+    verbalCommitment,
+    setVerbalCommitment,
+    secondContact,
+    setSecondContact,
+    phase
+    }) => {
 
     const [actionValue, setActionValue] = useState(0)
+    var getCandidateData;
 
-    // getCandidateData gets the data from selected Candidate. Case 1: Moves Candidate from Incoming to First. Case 2: Deletes Candidate from Incoming. Case 3: Set new Score for Candidate.
+    //Receives the selected candidate-object/getCandidateData as input. Checks in which phase the candidate is and after pressing "save change" button, it will change the selected candidates phase to the next one.
+    const handleMoveCandidate = (candidateData) => {
+        if(candidateData[0].phase === "Incoming"){
+            setFirstContact([...firstContact, {candidate: candidateData[0].candidate, score: candidateData[0].score, key: candidateData[0].candidate, phase: "First contact"}])
+        }
+        if(candidateData[0].phase === "First contact"){
+            setSecondContact([...secondContact, {candidate: candidateData[0].candidate, score: candidateData[0].score, key: candidateData[0].candidate, phase: "Second contact"}])
+        }
+        if(candidateData[0].phase === "Second contact"){
+            setVerbalCommitment([...verbalCommitment, {candidate: candidateData[0].candidate, score: candidateData[0].score, key: candidateData[0].candidate, phase: "Verbal commitment"}])
+        }
+    }
+
+    //Receives the selected candidate-object/getCandidateData as input. Checks in which phase he is in order to remove him from the array/state.
+    const handleRemoveCandidate = (candidateData) => {
+        if(candidateData[0].phase === "Incoming"){
+            setIncoming(incoming.filter(candidateName => candidateName.candidate !== selectCandidate.candidate))
+        }
+        if(candidateData[0].phase === "First contact"){
+            setFirstContact(firstContact.filter(candidateName => candidateName.candidate !== selectCandidate.candidate))
+        }
+        if(candidateData[0].phase === "Second contact"){
+            setSecondContact(secondContact.filter(candidateName => candidateName.candidate !== selectCandidate.candidate))
+        }
+        if(candidateData[0].phase === "Verbal commitment"){
+            setVerbalCommitment(verbalCommitment.filter(candidateName => candidateName.candidate !== selectCandidate.candidate))
+        }
+
+    }
+
+    // Checks in which phase the candidate is to access the right array/state for the filter. 
+    const handleFilterCandidateDataForFurtherUse = () => {
+        if(selectCandidate.phase === "Incoming"){
+            getCandidateData = incoming.filter(candidateName => candidateName.candidate === selectCandidate.candidate);
+        }
+        if(selectCandidate.phase === "First contact"){
+            getCandidateData = firstContact.filter(candidateName => candidateName.candidate === selectCandidate.candidate);
+        }
+        if(selectCandidate.phase === "Second contact"){
+            getCandidateData = secondContact.filter(candidateName => candidateName.candidate === selectCandidate.candidate);
+        }
+        if(selectCandidate.phase === "Verbal commitment"){
+            getCandidateData = verbalCommitment.filter(candidateName => candidateName.candidate === selectCandidate.candidate);
+        }
+    }
+    
+    // handleFilterCandidateDataForFurtherUse gets the Data from the selected candidate.
+    // Case 1: Moves Candidate from Incoming to First. Case 2: Deletes Candidate from Incoming. Case 3: Set new Score for Candidate.
     const handleApplyEdit = (e) => {
         e.preventDefault()
-        let getCandidateData = incoming.filter(e => e.candidate === selectCandidate);
+        handleFilterCandidateDataForFurtherUse()
         switch (actionValue) {
             case 1:
-                setFirstContact([...firstContact, {candidate: getCandidateData[0].candidate, score: getCandidateData[0].score, key: getCandidateData[0].candidate}])
-                setIncoming(incoming.filter(e => e.candidate !== selectCandidate))
+                handleMoveCandidate(getCandidateData)
+                handleRemoveCandidate(getCandidateData)
                 handleCloseEditCandidateModal()
                 setActionValue(0)
                 break;
             case 2:
-                setIncoming(incoming.filter(e => e.candidate !== selectCandidate))
+                handleRemoveCandidate(getCandidateData)
                 handleCloseEditCandidateModal()
                 setActionValue(0)
                 break;
@@ -46,11 +100,12 @@ const MoveCandidateModal = ({
                 break;
         }
     }
+  
 
     return(
         <Modal show={show} onHide={handleCloseEditCandidateModal}>
             <Modal.Header>
-                <Modal.Title>{selectCandidate} 
+                <Modal.Title>{selectCandidate.candidate} 
                     <Form>
                         <Form.Group>
                             <Form.Label>Edit Name</Form.Label>
@@ -72,8 +127,8 @@ const MoveCandidateModal = ({
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>  
-                <Button variant="outline-success" onClick={() => setActionValue(1)}>First contact</Button>
-                <Button variant="outline-success" onClick={() => setActionValue(2)}>Delete Candidate</Button>
+                <Button variant="outline-success" onClick={() => setActionValue(1)}>{phase}</Button>
+                <Button variant="outline-success" onClick={() => setActionValue(2)}>Remove Candidate</Button>
                 <Button variant="outline-success" onClick={() => setActionValue(3)}>Edit Name/Score</Button>
             </Modal.Body>
             <Modal.Footer>
