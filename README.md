@@ -1,15 +1,9 @@
-## Workwise Aufgabe
+## Bewerber-Management-System
 
-### Ich habe das Projekt mit create-react-app initialisiert und anschließend nur react-bootstrap installiert und einen Link in der index.html hinzugefügt.
-#### Diese Aufgabe hat knapp 3.5h Zeit beansprucht, da ich erst vor kurzem damit angefangen habe Bootstrap zu verwenden und bei einigen Templates viel Zeit verschwendet habe.
+### Das Projekt wurde mit create-react-app initialisiert und anschließend  react-bootstrap installiert. In der index.html wurde auch ein Link für Bootstrap hinzugefügt.
 
-    1. Als erstes habe ich das Layout erstellt mit Col/Row/Table
-    2. Cards gehardcoded
-    3. Add-Candidate Button mit Modal + Inputfeldern -> gespeichert in useState
-    4. Cards gemappt
-    5. Cards einen Edit-Button hinzugefügt
-    6. Edit-Button öffnet Modal -> Dort habe ich zuerst Checkbox und andere Ansätze versucht, letztendlich aber in einem State gespeichert und anschließend eine Switch benutzt.
-    7. Logic für Edit-Button
-    8. Dropdown mit Sort -> Hier habe ich auch Switch verwendet
+#### Alle Bewerber/Candidates sind jetzt in nur einem Array angelegt. Das ermöglicht das Arbeiten mit filter(), um somit die Bewerber in verschiedene Spalten aufzuteilen. In App.js kann im phases-Object jederzeit eine neue Phase hinzugefügt werden. 
 
-#### Wenn jede Spalte funktionieren sollte, dann würde ich dem Candidate vermutlich eine weitere Property geben, wo der Fortschritt gespeichert ist. Das wäre für den Edit-Button wichtig, da dort dann abhängig vom Fortschritt der Button für den nächsten Schritt flexibel geändert werden kann.
+#### Ich habe viele States von App.js in andere Components verlegt, das den Code um einiges leaner gemacht hat. Wo ich vorher nur eine Nummer/String verwendet habe, hat nun Enum einen Platz gefunden. 
+
+##### Nächste Schritte/Ideen: Form-Validation / Form in neue Component, da diese Code teilen / Responsive für mehrere Spalten / Redux / Array im localstorage speichern + useEffect / Variablen,Funktionen umbennen.
