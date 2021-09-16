@@ -12,16 +12,16 @@ const SortDropdown = ({incoming, setIncoming}) => {
     const handleSort = (sortType) => {
         let copyIncomingArray = [...incoming];
         switch (sortType) {
-          case 1:
+          case sortingEnums.ASCENDINGNUMBERS:
             setIncoming(copyIncomingArray.sort((a,b) => b.score - a.score))
             break;
-          case 2: 
+          case sortingEnums.DESCENDINGNUMBERS: 
             setIncoming(copyIncomingArray.sort((a,b) => a.score - b.score))
             break;
-          case 3:
+          case sortingEnums.ATOZNAMES:
             setIncoming(copyIncomingArray.sort((a,b) => a.candidate > b.candidate ? 1 : -1))
             break;
-          case 4:
+          case sortingEnums.ZTOANAMES:
             setIncoming(copyIncomingArray.sort((a,b) => b.candidate > a.candidate ? 1 : -1))
             break;
           default:
