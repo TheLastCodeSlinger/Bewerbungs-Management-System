@@ -3,9 +3,9 @@ import { Modal, Button, Form } from "react-bootstrap"
 
 const MoveCandidateModal = ({
     handleCloseEditCandidateModal, 
-    show, 
-    incoming, 
-    setIncoming, 
+    showEditModal, 
+    candidateArray, 
+    setCandidateArray, 
     selectCandidate,
     phases,
     phasesWithoutIncoming
@@ -20,36 +20,36 @@ const MoveCandidateModal = ({
         REMOVECANDIDATE: 2,
         CHANGECANDIDATE: 3
     }
-    let saveCandidateData = incoming.filter(candidateName => candidateName.candidate === selectCandidate.candidate);
+    let saveCandidateData = candidateArray.filter(candidateName => candidateName.candidate === selectCandidate.candidate);
  
     useEffect(() => {
-        if(show) {
+        if(showEditModal) {
             candidateInputRef.current.focus();
         }
-    },[show])
+    },[showEditModal])
 
     //Changes Edit-Modal-Button for next phase whenever the edit-button is clicked. Loops over phases-object-values to look for a match and then uses the modified withoutIncoming object.
     useEffect(() => {
-        if(show){
+        if(showEditModal){
             for (let [index,[ key, value]] of Object.entries(Object.entries(phases))) {
               if(saveCandidateData[0].phase === value){
                 setPhase(Object.values(phasesWithoutIncoming)[index])
               }
             }
         }
-    }, [show])
+    }, [showEditModal])
 
     //Iterates over phases. If match, then the old candidate+phase gets filtered out and a new candidate+next phase is added.
     const handleMoveCandidate = () => {
         for (let [index,[ elem]] of Object.entries(Object.entries(phases))) {
           if(saveCandidateData[0].phase === phases[elem]){
-            setIncoming([...incoming.filter(can => can.candidate !== saveCandidateData[0].candidate), {candidate: saveCandidateData[0].candidate, score: saveCandidateData[0].score, key: saveCandidateData[0].candidate, phase: Object.values(phasesWithoutIncoming)[index]}] )
+            setCandidateArray([...candidateArray.filter(can => can.candidate !== saveCandidateData[0].candidate), {candidate: saveCandidateData[0].candidate, score: saveCandidateData[0].score, key: saveCandidateData[0].candidate, phase: Object.values(phasesWithoutIncoming)[index]}] )
           }
         }
       }
 
     const handleRemoveCandidate = (candidateData) => {
-        setIncoming([...incoming.filter(can => can.candidate !== candidateData[0].candidate)])
+        setCandidateArray([...candidateArray.filter(can => can.candidate !== candidateData[0].candidate)])
     }
 
     
@@ -82,7 +82,7 @@ const MoveCandidateModal = ({
   
 
     return(
-        <Modal show={show} onHide={handleCloseEditCandidateModal}>
+        <Modal show={showEditModal} onHide={handleCloseEditCandidateModal}>
             <Modal.Header>
                 <Modal.Title>{selectCandidate.candidate} 
                     <Form>

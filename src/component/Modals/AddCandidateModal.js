@@ -2,29 +2,29 @@ import { useRef, useEffect } from "react"
 import {Modal, Button, Form} from "react-bootstrap"
 
 const InputModal = ({
-    show, 
+    showAddModal, 
     handleCloseAddCandidateModal, 
-    incoming, 
-    setIncoming,}) => {
+    candidateArray, 
+    setCandidateArray,}) => {
 
     const scoreInputRef = useRef()
     const candidateInputRef = useRef()
 
     useEffect(() => {
-        if(show) {
+        if(showAddModal) {
             candidateInputRef.current.focus();
         }
-    },[show])
+    },[showAddModal])
 
     const addCandidate = (e) => {
         //Spread copies old array and adds the new condidate to Incoming-List. Then reset Inputs.
         e.preventDefault()
-        setIncoming([...incoming, {candidate: candidateInputRef.current.value, score: scoreInputRef.current.value, phase: "Incoming"}])
+        setCandidateArray([...candidateArray, {candidate: candidateInputRef.current.value, score: scoreInputRef.current.value, phase: "Incoming"}])
         handleCloseAddCandidateModal()
       }
 
     return (
-        <Modal show={show} onHide={handleCloseAddCandidateModal}>
+        <Modal show={showAddModal} onHide={handleCloseAddCandidateModal}>
             <Modal.Header>
                 <Modal.Title>Add new Candidate to List</Modal.Title>
             </Modal.Header>

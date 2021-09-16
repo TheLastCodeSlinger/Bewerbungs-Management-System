@@ -9,9 +9,9 @@ import Header from './Header/Header'
 import "./App.css"
 
 function App() {
-  const [incoming, setIncoming] = useState([])
-  const [show, setShow] = useState(false);
-  const [showMove, setShowMove] = useState(false)
+  const [candidateArray, setCandidateArray] = useState([])
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false)
   const [selectCandidate, setSelectCandidate] = useState("")
   const phases = {
     INCOMING: "Incoming",
@@ -25,26 +25,26 @@ function App() {
 
 
 
-  const handleCloseAddCandidateModal = () => setShow(false);
-  const handleShowAddCandidateModal = () => setShow(true);
-  const handleCloseEditCandidateModal = () => setShowMove(false)
+  const handleCloseAddCandidateModal = () => setShowAddModal(false);
+  const handleShowAddCandidateModal = () => setShowAddModal(true);
+  const handleCloseEditCandidateModal = () => setShowEditModal(false)
   const handleShowEditCandidateModal = (candidate) => {
-    setShowMove(true)
+    setShowEditModal(true)
     setSelectCandidate(candidate)
   } 
 
   //Object.values(phases) returns an Array to map over. Each phase will render a Col. Each candidate has a phase property and the filter-method will output them depending on the Col.
-  let renderColumns = 
-    Object.values(phases).map((el, index) => {
+  let renderPhasesInColumns = 
+    Object.values(phases).map((phase, index) => {
       return(
-        <Col className="ColomnBorder" key={el}>
-          {incoming.filter(can => can.phase === el) ? incoming.filter(can => can.phase === el).map(inc => {
+        <Col className="ColomnBorder" key={phase}>
+          {candidateArray.filter(can => can.phase === phase) ? candidateArray.filter(can => can.phase === phase).map(candidateData => {
             return(
               <CandidateCard 
-                name={inc.candidate} 
-                score={inc.score} 
-                key={inc.candidate}
-                handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc)}
+                name={candidateData.candidate} 
+                score={candidateData.score} 
+                key={candidateData.candidate}
+                handleShowEditCandidateModal={() => handleShowEditCandidateModal(candidateData)}
                 />)
             }) 
             : null
@@ -63,26 +63,26 @@ function App() {
   return (
     <>
       <Header 
-        incoming={incoming} 
-        setIncoming={setIncoming} 
+        candidateArray={candidateArray} 
+        setCandidateArray={setCandidateArray} 
         phases={phasesWithoutIncoming} 
         /> 
       <Container fluid="true">
         <Row className="CenterRows">
-          {renderColumns}
+          {renderPhasesInColumns}
         </Row>
       </Container>
       <AddCandidateModal 
-        show={show} 
+        showAddModal={showAddModal} 
         handleCloseAddCandidateModal={handleCloseAddCandidateModal} 
-        incoming={incoming}
-        setIncoming={setIncoming}
+        candidateArray={candidateArray}
+        setCandidateArray={setCandidateArray}
           />
       <EditCandidateModal
-        show={showMove} 
+        showEditModal={showEditModal} 
         handleCloseEditCandidateModal={handleCloseEditCandidateModal}
-        incoming={incoming} 
-        setIncoming={setIncoming}
+        candidateArray={candidateArray} 
+        setCandidateArray={setCandidateArray}
         selectCandidate={selectCandidate}
         phases={phases}
         phasesWithoutIncoming={phasesWithoutIncoming}
