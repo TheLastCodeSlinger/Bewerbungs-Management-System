@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {Container, Row, Col, Button} from 'react-bootstrap'
 
 import CandidateCard from "./CardItem/CardItem"
@@ -23,7 +23,19 @@ function App() {
   let phasesWithoutIncoming = {...phases}
   delete phasesWithoutIncoming.INCOMING;
 
+  useEffect(() => {
+    const saved = localStorage.getItem("candidates")
+    if(JSON.parse(saved)){
+      setCandidateArray(JSON.parse(saved))
+    }
+    
+  }, [])
 
+  useEffect(() => {
+    localStorage.setItem("candidates", JSON.stringify(candidateArray))
+  }, [candidateArray])
+
+console.log(candidateArray, "ME FROM APP");
 
   const handleCloseAddCandidateModal = () => setShowAddModal(false);
   const handleShowAddCandidateModal = () => setShowAddModal(true);
