@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import {Container, Row, Col, Button, Dropdown} from 'react-bootstrap'
+import {Container, Row, Col, Button} from 'react-bootstrap'
 
-import CandidateCard from "./CardItem"
-import AddCandidateModal from './AddCandidateModal'
-import EditCandidateModal from './EditCandidateModal'
+import CandidateCard from "./CardItem/CardItem"
+import AddCandidateModal from './Modals/AddCandidateModal'
+import EditCandidateModal from './Modals/EditCandidateModal'
+import Header from './Header/Header'
 
 import "./App.css"
 
@@ -19,75 +20,64 @@ function App() {
   const [selectCandidate, setSelectCandidate] = useState("")
   const [phase, setPhase] = useState("")
 
+  const phases = {
+    INCOMING: "Incoming",
+    FIRSTCONTACT: "First contact",
+    SECONDCONTACT: "Second contact",
+    VERBALCOMMITMENT: "Verbal commitment",
+    XCONTACT:"X contact",
+  }
+  let phasesWithoutIncoming = {...phases}
+  delete phasesWithoutIncoming.INCOMING;
+
+
 
   const handleCloseAddCandidateModal = () => setShow(false);
   const handleShowAddCandidateModal = () => setShow(true);
-
   //Close MoveCandidateModal.js
   const handleCloseEditCandidateModal = () => setShowMove(false)
-
   //Opens Modal to Move/Delete/Edit Candidate and passes the candidate-object to EditCandidateModal.js
   const handleShowEditCandidateModal = (candidate) => {
     handleChangePhaseForButton(candidate.phase)
     setShowMove(true)
     setSelectCandidate(candidate)
+    Object.values(phases).map(el =>{
+      console.log(phase,el,firstContact.filter(ele => candidate.phase === phase));
+    })
   } 
 
-  //Changes the Button in the Edit-Modal.
+  //Change Button in Edit-Modal. Loops over phases. Object.values() is an array.
   const handleChangePhaseForButton = (candidateData) => {
-    if(candidateData === "Incoming"){
-        setPhase("First contact");
-    }
-    if(candidateData === "First contact"){
-        setPhase("Second contact");
-    }
-    if(candidateData === "Second contact"){
-        setPhase("Verbal commitment");
-    }
-}
-
-  //Copy of Incoming, because sort() mutates array.. Case 1: Descending Score. Case 2: Ascending Score. Case 3: A-Z Name. Case 4: Z-A Name.
-  const handleSort = (type) => {
-    let copyIncomingArray = [...incoming];
-    switch (type) {
-      case 1:
-        setIncoming(copyIncomingArray.sort((a,b) => b.score - a.score))
-        break;
-      case 2: 
-        setIncoming(copyIncomingArray.sort((a,b) => a.score - b.score))
-        break;
-      case 3:
-        setIncoming(copyIncomingArray.sort((a,b) => a.candidate > b.candidate ? 1 : -1))
-        break;
-      case 4:
-        setIncoming(copyIncomingArray.sort((a,b) => b.candidate > a.candidate ? 1 : -1))
-        break;
-      default:
-        break;
+    for (let [index,[ elem]] of Object.entries(Object.entries(phases))) {
+      if(candidateData === phases[elem]){
+        setPhase(Object.values(phasesWithoutIncoming)[index])
+      }
     }
   }
 
+  const handleRenderCol = () => {
+    Object.values(phases).map(el => {
+      return (
+        <Col className="ColomnBorder">
+          {incoming.filter(phase => phase === el) ? incoming.filter(phase => phase === el).map(inc => {
+            return (
+              <CandidateCard 
+                name={inc.candidate} 
+                score={inc.score} 
+                key={inc.candidate}
+                handleShowEditCandidateModal={() => handleShowEditCandidateModal(inc)}
+                />)
+            }) 
+            : null
+          })
+        </Col>
+      )
+    })
+  }
 
   return (
     <>
-      <Row className="HeaderRow">
-        <Col className="HeaderBorder">
-          <Dropdown>Incoming
-            <Dropdown.Toggle style={{marginLeft:"15px"}}>
-                  Sort
-              </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => handleSort(1) }>Desc. Score</Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort(2) }>Asc. Score</Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort(3) }>A-Z Name</Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort(4) }>Z-A Name</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-        </Col>
-        <Col className="HeaderBorder">First contact</Col>
-        <Col className="HeaderBorder">Second contact</Col>
-        <Col className="HeaderBorder">Verbal comittment</Col>
-      </Row>
+      <Header incoming={incoming} setIncoming={setIncoming} /> 
       <Container fluid="true">
         <Row className="CenterRows">
           <Col className="ColomnBorder">
@@ -107,6 +97,7 @@ function App() {
               className="AddCandidateButton"
               >Add Candidate</Button>
           </Col>
+          {handleRenderCol()}
           <Col className="ColomnBorder">
             {firstContact ? firstContact.map(inc => {
               return(
