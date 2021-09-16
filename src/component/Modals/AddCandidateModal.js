@@ -17,9 +17,12 @@ const InputModal = ({
     },[showAddModal])
 
     const addCandidate = (e) => {
-        //Spread copies old array and adds the new condidate to Incoming-List. Then reset Inputs.
+        //Spread copies old array and adds the new condidate to Incoming-List.
         e.preventDefault()
-        setCandidateArray([...candidateArray, {candidate: candidateInputRef.current.value, score: scoreInputRef.current.value, phase: "Incoming"}])
+        setCandidateArray([...candidateArray, {
+            candidate: candidateInputRef.current.value, 
+            score: scoreInputRef.current.value, 
+            phase: "Incoming"}])
         handleCloseAddCandidateModal()
       }
 

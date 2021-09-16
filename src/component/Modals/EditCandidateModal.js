@@ -43,7 +43,10 @@ const MoveCandidateModal = ({
     const handleMoveCandidate = () => {
         for (let [index,[ elem]] of Object.entries(Object.entries(phases))) {
           if(saveCandidateData[0].phase === phases[elem]){
-            setCandidateArray([...candidateArray.filter(can => can.candidate !== saveCandidateData[0].candidate), {candidate: saveCandidateData[0].candidate, score: saveCandidateData[0].score, key: saveCandidateData[0].candidate, phase: Object.values(phasesWithoutIncoming)[index]}] )
+            setCandidateArray([...candidateArray.filter(can => can.candidate !== saveCandidateData[0].candidate), {
+                candidate: saveCandidateData[0].candidate, 
+                score: saveCandidateData[0].score, key: saveCandidateData[0].candidate, 
+                phase: Object.values(phasesWithoutIncoming)[index]}] )
           }
         }
       }

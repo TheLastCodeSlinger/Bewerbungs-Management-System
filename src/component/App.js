@@ -38,15 +38,16 @@ function App() {
     Object.values(phases).map((phase, index) => {
       return(
         <Col className="ColomnBorder" key={phase}>
-          {candidateArray.filter(can => can.phase === phase) ? candidateArray.filter(can => can.phase === phase).map(candidateData => {
-            return(
-              <CandidateCard 
-                name={candidateData.candidate} 
-                score={candidateData.score} 
-                key={candidateData.candidate}
-                handleShowEditCandidateModal={() => handleShowEditCandidateModal(candidateData)}
-                />)
-            }) 
+          {candidateArray.filter(can => can.phase === phase) ? 
+            candidateArray.filter(can => can.phase === phase).map(candidateData => {
+              return(
+                <CandidateCard 
+                  name={candidateData.candidate} 
+                  score={candidateData.score} 
+                  key={candidateData.candidate}
+                  handleShowEditCandidateModal={() => handleShowEditCandidateModal(candidateData)}
+                  />)
+              }) 
             : null
           }
           {index === 0 && 
