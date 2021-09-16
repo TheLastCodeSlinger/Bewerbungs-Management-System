@@ -6,4 +6,6 @@
 
 #### Ich habe viele States von App.js in andere Components verlegt, das den Code um einiges leaner gemacht hat. Wo ich vorher nur eine Nummer/String verwendet habe, hat nun Enum einen Platz gefunden. 
 
-##### Nächste Schritte/Ideen: Form-Validation / Form in neue Component, da diese Code teilen / Responsive für mehrere Spalten / Redux / Array im localstorage speichern + useEffect 
+#### App speichert nun das Array im localstorage und läd es per useEffect. 
+
+##### Nächste Schritte/Ideen: Form-Validation / Form in neue Component, da diese Code teilen / Responsive für mehrere Spalten / Redux
