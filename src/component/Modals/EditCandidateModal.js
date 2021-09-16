@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Modal, Button, Form } from "react-bootstrap"
 
 const MoveCandidateModal = ({
@@ -13,14 +13,20 @@ const MoveCandidateModal = ({
 
     const [actionValue, setActionValue] = useState(0)
     const [phase, setPhase] = useState("")
-    const [candidateInputName, setCandidateInputName] = useState("")
-    const [candidateInputScore, setCandidateInputScore] = useState(0)
+    const scoreInputRef = useRef()
+    const candidateInputRef = useRef()
     const action = {
         MOVECANDIDATE: 1,
         REMOVECANDIDATE: 2,
         CHANGECANDIDATE: 3
     }
     let saveCandidateData = incoming.filter(candidateName => candidateName.candidate === selectCandidate.candidate);
+ 
+    useEffect(() => {
+        if(show) {
+            candidateInputRef.current.focus();
+        }
+    },[show])
 
     //Changes Edit-Modal-Button for next phase whenever the edit-button is clicked. Loops over phases-object-values to look for a match and then uses the modified withoutIncoming object.
     useEffect(() => {
@@ -62,11 +68,9 @@ const MoveCandidateModal = ({
                 setActionValue(0)
                 break;
             case 3:
-                saveCandidateData[0].score = candidateInputScore;
-                saveCandidateData[0].candidate = candidateInputName;
+                saveCandidateData[0].score = scoreInputRef.current.value;
+                saveCandidateData[0].candidate = candidateInputRef.current.value;
                 handleCloseEditCandidateModal();
-                setCandidateInputScore("")
-                setCandidateInputName("")
                 setActionValue(0)
                 break;
             default:
@@ -85,16 +89,14 @@ const MoveCandidateModal = ({
                         <Form.Group>
                             <Form.Label>Edit Name</Form.Label>
                             <Form.Control 
-                                onChange={ e => setCandidateInputName(e.target.value)}
-                                value={candidateInputName}
                                 type="text" 
+                                ref={candidateInputRef}
                                 placeholder="Enter new Name..." />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Edit score</Form.Label>
                             <Form.Control 
-                                onChange={ e => setCandidateInputScore(e.target.value)}
-                                value={candidateInputScore}
+                                ref={scoreInputRef}
                                 type="number" 
                                 placeholder="Enter new score..." />
                         </Form.Group>

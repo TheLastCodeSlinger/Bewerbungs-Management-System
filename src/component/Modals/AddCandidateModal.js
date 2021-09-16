@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import {Modal, Button, Form} from "react-bootstrap"
 
 const InputModal = ({
@@ -7,15 +7,19 @@ const InputModal = ({
     incoming, 
     setIncoming,}) => {
 
-    const [candidateInputName, setCandidateInputName] = useState("")
-    const [candidateInputScore, setCandidateInputScore] = useState(0)
+    const scoreInputRef = useRef()
+    const candidateInputRef = useRef()
+
+    useEffect(() => {
+        if(show) {
+            candidateInputRef.current.focus();
+        }
+    },[show])
 
     const addCandidate = (e) => {
         //Spread copies old array and adds the new condidate to Incoming-List. Then reset Inputs.
         e.preventDefault()
-        setIncoming([...incoming, {candidate: candidateInputName, score: candidateInputScore, key: candidateInputName, phase: "Incoming"}])
-        setCandidateInputName("")
-        setCandidateInputScore("")
+        setIncoming([...incoming, {candidate: candidateInputRef.current.value, score: scoreInputRef.current.value, phase: "Incoming"}])
         handleCloseAddCandidateModal()
       }
 
@@ -26,21 +30,19 @@ const InputModal = ({
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group>
+                    <Form.Group >
                         <Form.Label>Name</Form.Label>
                         <Form.Control 
-                            onChange={ e => setCandidateInputName(e.target.value)}
-                            value={candidateInputName}
                             type="text" 
+                            ref={candidateInputRef}
                             placeholder="Enter Candidate Name..."
                              />
                     </Form.Group>
                         <Form.Group>
                         <Form.Label>Score</Form.Label>
                         <Form.Control 
-                            onChange={ e => setCandidateInputScore(e.target.value)} 
-                            value={candidateInputScore} 
                             type="number" 
+                            ref={scoreInputRef}
                             placeholder="Enter Candidate Score..." 
                             />
                     </Form.Group>
