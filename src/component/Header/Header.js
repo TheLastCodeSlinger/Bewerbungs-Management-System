@@ -2,15 +2,18 @@ import {Row, Col} from "react-bootstrap"
 
 import SortDropdown from "./SortDropdown";
 
-const Header = ({incoming, setIncoming}) => {
-    
+const Header = ({incoming, setIncoming, phases}) => {
+
+    let headerColumns = Object.values(phases).map(phase => {
+        return (
+            <Col className="HeaderBorder" key={phase}>{phase}</Col>
+        )
+    })
 
     return(
         <Row className="HeaderRow">
             <SortDropdown incoming={incoming} setIncoming={setIncoming}/>
-        <Col className="HeaderBorder">First contact</Col>
-        <Col className="HeaderBorder">Second contact</Col>
-        <Col className="HeaderBorder">Verbal comittment</Col>
+            {headerColumns}
       </Row>
     )
 }

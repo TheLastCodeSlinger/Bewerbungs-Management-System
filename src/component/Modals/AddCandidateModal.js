@@ -1,14 +1,14 @@
+import { useState } from "react"
 import {Modal, Button, Form} from "react-bootstrap"
 
 const InputModal = ({
-    candidateInputScore, 
-    setCandidateInputScore, 
-    candidateInputName, 
-    setCandidateInputName, 
     show, 
     handleCloseAddCandidateModal, 
     incoming, 
     setIncoming,}) => {
+
+    const [candidateInputName, setCandidateInputName] = useState("")
+    const [candidateInputScore, setCandidateInputScore] = useState(0)
 
     const addCandidate = (e) => {
         //Spread copies old array and adds the new condidate to Incoming-List. Then reset Inputs.
@@ -32,15 +32,17 @@ const InputModal = ({
                             onChange={ e => setCandidateInputName(e.target.value)}
                             value={candidateInputName}
                             type="text" 
-                            placeholder="Enter Candidate Name..." />
+                            placeholder="Enter Candidate Name..."
+                             />
                     </Form.Group>
                         <Form.Group>
                         <Form.Label>Score</Form.Label>
                         <Form.Control 
                             onChange={ e => setCandidateInputScore(e.target.value)} 
                             value={candidateInputScore} 
-                            type="text" 
-                            placeholder="Enter Candidate Score..." />
+                            type="number" 
+                            placeholder="Enter Candidate Score..." 
+                            />
                     </Form.Group>
                 </Form>
             </Modal.Body>

@@ -9,9 +9,9 @@ const SortDropdown = ({incoming, setIncoming}) => {
     }
   //Copy of Incoming, because sort() mutates array.. Case 1: Descending Score. Case 2: Ascending Score. Case 3: A-Z Name. Case 4: Z-A Name.
 
-    const handleSort = (type) => {
+    const handleSort = (sortType) => {
         let copyIncomingArray = [...incoming];
-        switch (type) {
+        switch (sortType) {
           case 1:
             setIncoming(copyIncomingArray.sort((a,b) => b.score - a.score))
             break;
