@@ -20,8 +20,7 @@ const MoveCandidateModal = ({
         REMOVECANDIDATE: 2,
         CHANGECANDIDATE: 3
     }
-    let saveCandidateData = candidateArray.filter(candidateName => candidateName.candidate === selectCandidate.candidate);
- 
+    let saveCandidateData = candidateArray.filter(candidateName => candidateName.candidate === selectCandidate.candidate)[0];
     useEffect(() => {
         if(showEditModal) {
             candidateInputRef.current.focus();
@@ -32,7 +31,7 @@ const MoveCandidateModal = ({
     useEffect(() => {
         if(showEditModal){
             for (let [index,[ key, value]] of Object.entries(Object.entries(phases))) {
-              if(saveCandidateData[0].phase === value){
+              if(saveCandidateData.phase === value){
                 setPhase(Object.values(phasesWithoutIncoming)[index])
               }
             }
@@ -42,17 +41,17 @@ const MoveCandidateModal = ({
     //Iterates over phases. If match, then the old candidate+phase gets filtered out and a new candidate+next phase is added.
     const handleMoveCandidate = () => {
         for (let [index,[ elem]] of Object.entries(Object.entries(phases))) {
-          if(saveCandidateData[0].phase === phases[elem]){
-            setCandidateArray([...candidateArray.filter(can => can.candidate !== saveCandidateData[0].candidate), {
-                candidate: saveCandidateData[0].candidate, 
-                score: saveCandidateData[0].score, key: saveCandidateData[0].candidate, 
+          if(saveCandidateData.phase === phases[elem]){
+            setCandidateArray([...candidateArray.filter(can => can.candidate !== saveCandidateData.candidate), {
+                candidate: saveCandidateData.candidate, 
+                score: saveCandidateData.score, key: saveCandidateData.candidate, 
                 phase: Object.values(phasesWithoutIncoming)[index]}] )
           }
         }
       }
 
     const handleRemoveCandidate = (candidateData) => {
-        setCandidateArray([...candidateArray.filter(can => can.candidate !== candidateData[0].candidate)])
+        setCandidateArray([...candidateArray.filter(can => can.candidate !== candidateData.candidate)])
     }
 
     

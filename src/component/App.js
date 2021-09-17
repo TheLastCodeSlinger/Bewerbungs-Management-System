@@ -35,7 +35,6 @@ function App() {
     localStorage.setItem("candidates", JSON.stringify(candidateArray))
   }, [candidateArray])
 
-console.log(candidateArray, "ME FROM APP");
 
   const handleCloseAddCandidateModal = () => setShowAddModal(false);
   const handleShowAddCandidateModal = () => setShowAddModal(true);
